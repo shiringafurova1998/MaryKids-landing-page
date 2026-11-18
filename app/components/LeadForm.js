@@ -79,7 +79,7 @@ export default function LeadForm() {
 
   if (status === "success") {
     return (
-      <div className="mt-6 rounded-2xl bg-pink-50 p-6 text-center text-pink-800">
+      <div className="mt-6 bg-blush p-6 text-center text-cocoa">
         <p className="text-lg font-semibold">Rahmat! Ma&apos;lumotingiz qabul qilindi ❤️</p>
         <p className="mt-1">Tez orada siz bilan bog&apos;lanamiz.</p>
         <button onClick={() => setStatus("idle")} className="mt-4 text-sm font-medium underline">
@@ -90,21 +90,21 @@ export default function LeadForm() {
   }
 
   const inputClass = (field) =>
-    `mt-1 w-full rounded-xl border px-4 py-3 outline-none transition focus:ring-2 ${
+    `mt-1 w-full border px-4 py-3 outline-none transition focus:ring-2 ${
       errors[field]
         ? "border-red-400 focus:ring-red-200"
-        : "border-slate-300 focus:border-pink-400 focus:ring-pink-100"
+        : "border-[#e2d6cf] focus:border-dusty focus:ring-blush"
     }`;
 
   const chip = (active) =>
-    `flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition ${
-      active ? "border-pink-400 bg-pink-50 text-pink-700" : "border-slate-200 hover:border-pink-200"
+    `flex cursor-pointer items-center gap-3 border px-4 py-3 transition ${
+      active ? "border-dusty bg-blush text-cocoa" : "border-[#e2d6cf] hover:border-dusty"
     }`;
 
   return (
     <form onSubmit={onSubmit} noValidate className="mt-6 space-y-5">
       <label className="block">
-        <span className="text-sm font-medium text-slate-700">Ismingiz</span>
+        <span className="text-sm font-medium text-cocoa">Ismingiz</span>
         <input
           type="text"
           autoComplete="given-name"
@@ -120,7 +120,7 @@ export default function LeadForm() {
       </label>
 
       <label className="block">
-        <span className="text-sm font-medium text-slate-700">Telefon raqamingiz</span>
+        <span className="text-sm font-medium text-cocoa">Telefon raqamingiz</span>
         <input
           type="tel"
           inputMode="tel"
@@ -137,10 +137,10 @@ export default function LeadForm() {
       </label>
 
       <fieldset>
-        <legend className="text-sm font-medium text-slate-700">Sizni qaysi mahsulotlar qiziqtiradi?</legend>
+        <legend className="text-sm font-medium text-cocoa">Sizni qaysi mahsulotlar qiziqtiradi?</legend>
         <div className="mt-2 grid gap-2">
           <label className={chip(allSelected)}>
-            <input type="checkbox" checked={allSelected} onChange={toggleAll} className="h-4 w-4 accent-pink-500" />
+            <input type="checkbox" checked={allSelected} onChange={toggleAll} className="h-4 w-4 accent-[#9a5a3c]" />
             <span className="font-medium">Barchasi</span>
           </label>
           {INTERESTS.map((item) => (
@@ -149,7 +149,7 @@ export default function LeadForm() {
                 type="checkbox"
                 checked={form.interests.includes(item)}
                 onChange={() => toggle(item)}
-                className="h-4 w-4 accent-pink-500"
+                className="h-4 w-4 accent-[#9a5a3c]"
               />
               <span>{item}</span>
             </label>
@@ -159,7 +159,7 @@ export default function LeadForm() {
       </fieldset>
 
       {status === "error" && (
-        <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">
+        <p className="bg-red-50 p-3 text-sm text-red-700">
           Xatolik yuz berdi. Iltimos, qaytadan urinib ko&apos;ring.
         </p>
       )}
@@ -167,7 +167,7 @@ export default function LeadForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-2xl bg-pink-500 py-3.5 font-semibold text-white shadow-lg transition hover:bg-pink-600 disabled:opacity-60"
+        className="w-full bg-rust py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-cocoa disabled:opacity-60"
       >
         {status === "sending" ? "Yuborilmoqda..." : "Yuborish"}
       </button>
