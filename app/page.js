@@ -190,7 +190,7 @@ export default function Home() {
           <div className="relative mx-auto w-full max-w-sm">
             <div className="overflow-hidden rounded-t-full border-[12px] border-b-0 border-cream bg-cream">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={IMG + "ryukzak-stitch-angel.jpg"} alt="MARY KIDS ryukzaklari" className="aspect-[4/5] w-full object-cover" />
+              <img src={IMG + "ryukzak-belle.jpg"} alt="MARY KIDS ryukzaklari" className="aspect-[4/5] w-full object-cover" />
             </div>
             <div className="absolute -right-10 -top-6 hidden sm:block">
               <CircleText />
