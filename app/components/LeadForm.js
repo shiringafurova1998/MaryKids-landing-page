@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getFbCookies, newEventId, pixelTrack } from "@/lib/meta-client";
 
 const INTERESTS = [
   "Palto va kurtkalar",
@@ -52,16 +53,23 @@ export default function LeadForm() {
     event.preventDefault();
     if (!validate()) return;
     setStatus("sending");
+    const eventId = newEventId();
+    const interests = allSelected ? ["Barchasi"] : form.interests;
     try {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          interests: allSelected ? ["Barchasi"] : form.interests,
+          interests,
+          eventId,
+          eventSourceUrl: window.location.href,
+          ...getFbCookies(),
         }),
       });
       if (!res.ok) throw new Error("Request failed");
+      // Brauzer Pixel'i — server CAPI bilan bir xil eventId (dublikat sanalmaydi)
+      pixelTrack("Lead", { content_name: "MARY KIDS forma", content_category: interests.join(", ") }, eventId);
       setStatus("success");
       setForm(initial);
     } catch {
