@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { sendCapiEvent } from "@/lib/meta-capi";
 
 // Kerakli sozlamalar (Vercel → Settings → Environment Variables yoki .env.local):
 //   TELEGRAM_BOT_TOKEN — @BotFather bergan token
@@ -44,11 +45,33 @@ export async function POST(request) {
     `🕒 ${new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" })}`,
   ].join("\n");
 
-  const tg = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" }),
-  });
+  const eventId = typeof data.eventId === "string" ? data.eventId.slice(0, 100) : undefined;
+
+  // Telegram va Meta CAPI parallel yuboriladi
+  const [tg, capi] = await Promise.all([
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" }),
+    }),
+    eventId
+      ? sendCapiEvent({
+          request,
+          eventName: "Lead",
+          eventId,
+          eventSourceUrl: typeof data.eventSourceUrl === "string" ? data.eventSourceUrl.slice(0, 500) : undefined,
+          user: {
+            phone,
+            firstName: name.split(/\s+/)[0],
+            externalId: phone,
+            fbp: typeof data.fbp === "string" ? data.fbp : undefined,
+            fbc: typeof data.fbc === "string" ? data.fbc : undefined,
+          },
+          customData: { content_name: "MARY KIDS forma", content_category: interests.join(", ") },
+        }).catch((e) => ({ ok: false, error: String(e) }))
+      : Promise.resolve({ skipped: true }),
+  ]);
+  if (capi && capi.ok === false) console.error("CAPI Lead yuborilmadi");
 
   if (!tg.ok) {
     console.error("Telegram xatosi:", await tg.text());
