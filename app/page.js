@@ -142,11 +142,9 @@ export default function Home() {
 
       {/* Logo */}
       <header className="relative flex flex-col items-center px-6 py-7">
-        <Rainbow className="h-7 w-12" />
-        <span className="font-script -mb-2 mt-1 text-xl text-dusty">sevimli bolalar do&apos;koni</span>
-        <span className="font-serif text-4xl font-semibold tracking-tight text-rust sm:text-5xl">
-          mary <span className="text-dusty">kids</span>
-        </span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={IMG + "logo.png"} alt="MARY KIDS" width="820" height="215" className="h-12 w-auto sm:h-16" />
+        <span className="font-script mt-1 text-xl text-dusty">sevimli bolalar do&apos;koni</span>
         <a
           href={CHANNEL_URL}
           target="_blank"
@@ -314,8 +312,8 @@ export default function Home() {
       </section>
 
       <footer className="bg-dusty px-6 py-10 text-center text-cocoa">
-        <Rainbow className="mx-auto h-7 w-12" />
-        <p className="mt-3 font-serif text-2xl">mary kids</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={IMG + "logo.png"} alt="MARY KIDS" width="820" height="215" className="mx-auto h-10 w-auto" />
         <p className="mt-2 text-xs uppercase tracking-[0.2em]">© {new Date().getFullYear()} · Barcha huquqlar himoyalangan</p>
       </footer>
     </main>
