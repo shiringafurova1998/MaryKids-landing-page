@@ -176,10 +176,10 @@ export default function Home() {
         <svg className="absolute -left-10 bottom-0 h-56 w-40 text-rust" viewBox="0 0 100 160" aria-hidden>
           <path d="M0 20c40 0 70 30 70 70s-20 70-70 70z" fill="currentColor" />
         </svg>
-        <svg className="absolute -right-6 top-1/3 h-72 w-72 text-rust sm:h-96 sm:w-96" viewBox="0 0 200 200" aria-hidden>
+        <svg className="absolute -right-6 bottom-0 h-56 w-44 text-rust md:h-80 md:w-56" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden>
           <path d="M200 0v200H60C60 120 90 40 200 0z" fill="currentColor" />
         </svg>
-        <svg className="absolute -bottom-10 right-24 h-48 w-80 text-dusty" viewBox="0 0 300 160" aria-hidden>
+        <svg className="absolute -bottom-12 right-16 h-32 w-60 text-dusty md:right-32" viewBox="0 0 300 160" aria-hidden>
           <path d="M0 160C10 80 80 30 160 40s140 60 140 120z" fill="currentColor" />
         </svg>
         <Sparkle className="absolute right-[28%] top-10 h-6 w-6 text-white" />
@@ -197,7 +197,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative pb-14 text-center md:pb-24 md:text-left">
+          <div className="relative z-10 pb-14 text-center md:pb-24 md:pr-16 md:text-left">
             <p className="font-script text-5xl leading-none text-white drop-shadow-sm sm:text-6xl">bolajonlar uchun</p>
             <h1 className="mt-2 font-serif text-4xl font-semibold leading-tight text-rust sm:text-5xl">
               eng yoqimli mahsulotlar
