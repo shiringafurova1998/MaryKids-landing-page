@@ -19,6 +19,31 @@ Forma yuborilganda ma'lumot **to'g'ridan-to'g'ri Telegram botga** keladi.
    - `TELEGRAM_CHAT_ID`
    - `NEXT_PUBLIC_TELEGRAM_CHANNEL_URL` — kanal havolasi
 
+## Meta Pixel + Conversions API (CAPI)
+
+Sayt Meta'ga ikki yo'l bilan ulanadi: brauzerdagi **Pixel** va serverdagi **Conversions API**.
+Har bir hodisa ikkalasiga bir xil `event_id` bilan yuboriladi, shuning uchun Meta ularni
+birlashtiradi (deduplication) — ikki marta sanalmaydi.
+
+| Hodisa | Qachon | Pixel | CAPI |
+|---|---|---|---|
+| `PageView` | Sahifa ochilganda | ✅ | ✅ |
+| `ViewContent` | Mahsulot bo'limi ekranda ko'ringanda | ✅ | ✅ |
+| `Contact` | "Telegram kanalga o'tish" bosilganda | ✅ | ✅ |
+| `Lead` | Forma muvaffaqiyatli yuborilganda | ✅ | ✅ (telefon va ism SHA-256 bilan xeshlangan) |
+
+CAPI'ga qo'shimcha yuboriladi: IP, user-agent, `_fbp`/`_fbc` cookie (yoki URL'dagi `fbclid`),
+xeshlangan telefon, ism, mamlakat (`uz`) — bu Event Match Quality ni oshiradi.
+
+**Sozlash:**
+1. Meta Events Manager → Pixel yarating, ID ni `NEXT_PUBLIC_META_PIXEL_ID` ga yozing.
+2. Pixel → Settings → Conversions API → **Generate access token** → `META_CAPI_ACCESS_TOKEN`.
+3. Test: Events Manager → **Test events** dagi kodni `META_TEST_EVENT_CODE` ga yozing, saytni oching,
+   hodisalar "Browser" va "Server" sifatida kelayotganini tekshiring. Keyin bu qiymatni o'chiring.
+
+Kod: `lib/meta-capi.js` (server), `lib/meta-client.js` (brauzer), `app/components/MetaPixel.js`,
+`app/api/meta-event/route.js`, `app/api/lead/route.js`.
+
 ## Ishga tushirish
 
 ```bash
@@ -33,4 +58,4 @@ Rasmlarni `public/images/` ga joylang va `app/page.js` dagi mahsulot ro'yxatlari
 
 ## Deploy
 
-Repo'ni [Vercel](https://vercel.com/new) ga ulang va Environment Variables bo'limiga yuqoridagi 3 ta qiymatni kiriting.
+Repo'ni [Vercel](https://vercel.com/new) ga ulang va Environment Variables bo'limiga `.env.example` dagi barcha qiymatlarni kiriting (Telegram + Meta).
