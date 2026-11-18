@@ -74,9 +74,9 @@ export default function Home() {
           </a>
         </nav>
         <div className="mx-auto max-w-4xl px-6 pb-24 pt-12 text-center sm:pt-20">
-          <span className="inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-medium">🎀 Hello Kitty kolleksiyasi</span>
+          <span className="inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-medium">✨ Yangi kolleksiya</span>
           <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-6xl">
-            MARY KIDS bilan Hello Kitty dunyosiga xush kelibsiz
+            MARY KIDS — bolajonlar uchun eng yoqimli mahsulotlar
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-pink-50">
             Bolangiz uchun eng yoqimli Hello Kitty naborlari, Disney ryukzaklar, mini sumkalar,
@@ -95,8 +95,8 @@ export default function Home() {
 
       <Section
         id="hello-kitty"
-        eyebrow="Tanishuv"
-        title="Hello Kitty mahsulotlarimiz"
+        eyebrow="Hello Kitty"
+        title="Hello Kitty dunyosiga xush kelibsiz"
         text="Qizalaringiz sevadigan Hello Kitty naborlari va aksessuarlari — sovg'a uchun ham, kundalik foydalanish uchun ham."
         items={helloKitty}
       />
