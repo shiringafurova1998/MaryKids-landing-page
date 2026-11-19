@@ -10,6 +10,7 @@ export const metadata = {
   title: "MARY KIDS — Hello Kitty, ryukzaklar, palto va kurtkalar",
   description:
     "MARY KIDS: Hello Kitty mahsulotlari, Disney ryukzaklar, mini sumkalar, bolalar palto, kurtka va shapka-sharf naborlari.",
+  icons: { icon: "/images/icon.png", apple: "/images/icon.png" },
 };
 
 export default function RootLayout({ children }) {
