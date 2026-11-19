@@ -171,13 +171,13 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-blush">
         {/* fon shakllari */}
-        <svg className="absolute -left-10 bottom-0 h-56 w-40 text-rust" viewBox="0 0 100 160" aria-hidden>
+        <svg className="absolute -left-10 bottom-0 hidden h-56 w-40 text-rust md:block" viewBox="0 0 100 160" aria-hidden>
           <path d="M0 20c40 0 70 30 70 70s-20 70-70 70z" fill="currentColor" />
         </svg>
-        <svg className="absolute -right-6 bottom-0 h-56 w-44 text-rust md:h-80 md:w-56" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden>
+        <svg className="absolute -right-6 bottom-0 hidden text-rust md:block md:h-80 md:w-56" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden>
           <path d="M200 0v200H60C60 120 90 40 200 0z" fill="currentColor" />
         </svg>
-        <svg className="absolute -bottom-12 right-16 h-32 w-60 text-dusty md:right-32" viewBox="0 0 300 160" aria-hidden>
+        <svg className="absolute -bottom-12 right-16 hidden h-32 w-60 text-dusty md:right-32 md:block" viewBox="0 0 300 160" aria-hidden>
           <path d="M0 160C10 80 80 30 160 40s140 60 140 120z" fill="currentColor" />
         </svg>
         <Sparkle className="absolute right-[28%] top-10 h-6 w-6 text-white" />
