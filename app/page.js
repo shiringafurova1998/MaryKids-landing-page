@@ -8,6 +8,7 @@ const IMG = "/images/";
 // Mahsulot qo'shish: rasmni public/images ga qo'ying va ro'yxatga { title, image } yozing.
 const helloKitty = [
   { title: "Organayzer quti", image: "hk-organayzer.jpg" },
+  { title: "Organayzer quti (kamalak)", image: "hk-organayzer-kamalak.jpg" },
   { title: "Tungi chiroq", image: "hk-chiroq.jpg" },
   { title: "Salfetka qutisi", image: "hk-salfetka.jpg" },
   { title: "Kalkulyator", image: "hk-kalkulyator.jpg" },
@@ -26,18 +27,30 @@ const helloKitty = [
   { title: "Ruchka idishi", image: "hk-ruchka-idish.jpg" },
 ];
 
-const bags = [
+const backpacks = [
   { title: "Belle gulli ryukzak", image: "ryukzak-belle.jpg" },
   { title: "Stitch & Angel ryukzak", image: "ryukzak-stitch-angel.jpg" },
-  { title: "Mickey ryukzak", image: "ryukzak-mickey.jpg" },
-  { title: "Stitch ryukzak (bayramona)", image: "ryukzak-stitch-1.jpg" },
-  { title: "Stitch ryukzak (kitob bilan)", image: "ryukzak-stitch-2.jpg" },
+  { title: "Malika ertaklari ryukzak", image: "ryukzak-princess-kitoblar.jpg" },
   { title: "Eeyore ryukzak", image: "ryukzak-eeyore.jpg" },
+  { title: "Mickey ryukzak — qizil", note: "hamyoncha bilan", image: "ryukzak-mickey.jpg" },
+  { title: "Mickey ryukzak — pushti", note: "hamyoncha bilan", image: "ryukzak-mickey-pushti.jpg" },
+  { title: "Mickey ryukzak — oq", note: "hamyoncha bilan", image: "ryukzak-mickey-oq.jpg" },
   { title: "Donald Duck ryukzak", image: "ryukzak-donald.jpg" },
   { title: "Snoopy ryukzak", image: "ryukzak-snoopy.jpg" },
+  { title: "Stitch ryukzak (bayramona)", image: "ryukzak-stitch-1.jpg" },
+  { title: "Stitch ryukzak (kitob bilan)", image: "ryukzak-stitch-2.jpg" },
   { title: "Pochacco ryukzak", image: "ryukzak-pochacco.jpg" },
-  { title: "Hello Kitty mini sumka", image: "sumka-hk-denim.jpg" },
+  { title: "Micherr ryukzak — qizil katak", image: "ryukzak-micherr-qizil.jpg" },
+  { title: "Micherr ryukzak — bej", image: "ryukzak-micherr-bej.jpg" },
+];
+
+const miniBags = [
+  { title: "Hello Kitty mini sumka — oq", image: "sumka-hk-oq.jpg" },
+  { title: "Hello Kitty mini sumka — katak", image: "sumka-hk-katak.jpg" },
+  { title: "Hello Kitty mini sumka — qora", image: "sumka-hk-qora.jpg" },
+  { title: "Hello Kitty mini sumka — denim", image: "sumka-hk-denim.jpg" },
   { title: "Hello Kitty bantik sumka", image: "sumka-hk-bow.jpg" },
+  { title: "Cinnamoroll mini sumka", image: "sumka-cinnamoroll.jpg" },
 ];
 
 const outerwear = [
@@ -263,7 +276,10 @@ export default function Home() {
               title="Ryukzaklar va mini sumkalar"
               text="Disney qahramonlari tushirilgan ryukzaklar va sayr uchun yoqimli mini sumkalar — bog'cha, maktab va sayohat uchun."
             />
-            <ProductGrid items={bags} />
+            <h3 className="mt-12 text-center text-xs font-semibold uppercase tracking-[0.25em] text-cocoa">Ryukzaklar</h3>
+            <ProductGrid items={backpacks} />
+            <h3 className="mt-16 text-center text-xs font-semibold uppercase tracking-[0.25em] text-cocoa">Mini sumkalar</h3>
+            <ProductGrid items={miniBags} />
           </div>
         </ViewTracker>
       </section>
