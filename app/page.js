@@ -1,6 +1,8 @@
 import LeadForm from "./components/LeadForm";
 import TelegramButton from "./components/TelegramButton";
 import ViewTracker from "./components/ViewTracker";
+import Logo from "./components/Logo";
+import Reveal from "./components/Reveal";
 
 const CHANNEL_URL = process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL || "https://t.me/marykids";
 const IMG = "/images/";
@@ -82,7 +84,7 @@ function Rainbow({ className = "" }) {
 
 function Sparkle({ className = "" }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+    <svg viewBox="0 0 24 24" className={`twinkle ${className}`} aria-hidden>
       <path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z" fill="currentColor" />
     </svg>
   );
@@ -103,10 +105,14 @@ function CircleText() {
 
 /* ---------- Mahsulot kartochkalari ---------- */
 
-function ProductCard({ item }) {
+function ProductCard({ item, index = 0 }) {
   return (
-    <figure className="group w-[calc(50%-8px)] sm:w-[calc(33.333%-14px)] lg:w-[calc(25%-15px)]">
-      <div className="overflow-hidden bg-blush">
+    <figure
+      data-reveal
+      style={{ transitionDelay: `${(index % 4) * 90}ms` }}
+      className="group w-[calc(50%-8px)] sm:w-[calc(33.333%-14px)] lg:w-[calc(25%-15px)]"
+    >
+      <div className="overflow-hidden bg-blush transition duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_14px_30px_-12px_rgba(107,61,42,0.35)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={IMG + item.image}
@@ -126,8 +132,8 @@ function ProductCard({ item }) {
 function ProductGrid({ items }) {
   return (
     <div className="mt-10 flex flex-wrap justify-center gap-x-4 gap-y-8 sm:gap-x-5 lg:gap-x-5">
-      {items.map((item) => (
-        <ProductCard key={item.image} item={item} />
+      {items.map((item, i) => (
+        <ProductCard key={item.image} item={item} index={i} />
       ))}
     </div>
   );
@@ -135,7 +141,7 @@ function ProductGrid({ items }) {
 
 function SectionTitle({ kicker, title, text }) {
   return (
-    <div className="text-center">
+    <div className="text-center" data-reveal>
       {kicker && <p className="font-script text-3xl text-rust">{kicker}</p>}
       <h2 className="mt-1 font-serif text-3xl font-medium tracking-tight text-cocoa sm:text-4xl">{title}</h2>
       {text && <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-taupe sm:text-base">{text}</p>}
@@ -148,6 +154,7 @@ function SectionTitle({ kicker, title, text }) {
 export default function Home() {
   return (
     <main className="mx-auto max-w-[1400px] bg-white shadow-[0_0_60px_rgba(107,61,42,0.06)]">
+      <Reveal />
       {/* E'lon qatori */}
       <div className="bg-rust px-4 py-2 text-center text-[11px] font-medium uppercase tracking-[0.2em] text-white">
         Yangi kolleksiya keldi · Buyurtma Telegram orqali
@@ -155,9 +162,8 @@ export default function Home() {
 
       {/* Logo */}
       <header className="relative flex flex-col items-center px-6 py-7">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={IMG + "logo.png"} alt="MARY KIDS" width="820" height="215" className="h-12 w-auto sm:h-16" />
-        <span className="font-script mt-1 text-xl text-dusty">sevimli bolalar do&apos;koni</span>
+        <Logo className="h-12 sm:h-16" />
+        <span className="anim-up delay-2 font-script mt-1 text-xl text-dusty">sevimli bolalar do&apos;koni</span>
         <a
           href={CHANNEL_URL}
           target="_blank"
@@ -184,13 +190,13 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-blush">
         {/* fon shakllari */}
-        <svg className="absolute -left-10 bottom-0 hidden h-56 w-40 text-rust md:block" viewBox="0 0 100 160" aria-hidden>
+        <svg className="float-slow absolute -left-10 bottom-0 hidden h-56 w-40 text-rust md:block" viewBox="0 0 100 160" aria-hidden>
           <path d="M0 20c40 0 70 30 70 70s-20 70-70 70z" fill="currentColor" />
         </svg>
         <svg className="absolute -right-6 bottom-0 hidden text-rust md:block md:h-80 md:w-56" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden>
           <path d="M200 0v200H60C60 120 90 40 200 0z" fill="currentColor" />
         </svg>
-        <svg className="absolute -bottom-12 right-16 hidden h-32 w-60 text-dusty md:right-32 md:block" viewBox="0 0 300 160" aria-hidden>
+        <svg className="float-slower absolute -bottom-12 right-16 hidden h-32 w-60 text-dusty md:right-32 md:block" viewBox="0 0 300 160" aria-hidden>
           <path d="M0 160C10 80 80 30 160 40s140 60 140 120z" fill="currentColor" />
         </svg>
         <Sparkle className="absolute right-[28%] top-10 h-6 w-6 text-white" />
@@ -198,7 +204,7 @@ export default function Home() {
         <Sparkle className="absolute bottom-16 left-[46%] h-4 w-4 text-white" />
 
         <div className="relative mx-auto grid max-w-6xl items-end gap-10 px-6 pt-12 md:grid-cols-2 md:pt-16">
-          <div className="relative mx-auto w-full max-w-sm">
+          <div className="anim-arch relative mx-auto w-full max-w-sm">
             <div className="overflow-hidden rounded-t-full border-[12px] border-b-0 border-cream bg-cream">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={IMG + "ryukzak-belle.jpg"} alt="MARY KIDS ryukzaklari" className="aspect-[4/5] w-full object-cover" />
@@ -209,15 +215,15 @@ export default function Home() {
           </div>
 
           <div className="relative z-10 pb-14 text-center md:pb-24 md:pr-16 md:text-left">
-            <p className="font-script text-5xl leading-none text-white drop-shadow-sm sm:text-6xl">bolajonlar uchun</p>
-            <h1 className="mt-2 font-serif text-4xl font-semibold leading-tight text-rust sm:text-5xl">
+            <p className="anim-up delay-1 font-script text-5xl leading-none text-white drop-shadow-sm sm:text-6xl">bolajonlar uchun</p>
+            <h1 className="anim-up delay-2 mt-2 font-serif text-4xl font-semibold leading-tight text-rust sm:text-5xl">
               eng yoqimli mahsulotlar
             </h1>
-            <p className="mt-5 max-w-md text-sm leading-relaxed text-taupe md:text-base">
+            <p className="anim-up delay-3 mt-5 max-w-md text-sm leading-relaxed text-taupe md:text-base">
               Hello Kitty naborlari, Disney ryukzaklar, mini sumkalar, issiq palto, kurtka va shapka-sharf
               naborlari — barchasi MARY KIDS&apos;da.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
+            <div className="anim-up delay-4 mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
               <a href="#hello-kitty" className="bg-taupe px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-cocoa">
                 Mahsulotlarni ko&apos;rish
               </a>
@@ -233,7 +239,7 @@ export default function Home() {
       <section id="hello-kitty" className="scroll-mt-4">
         <ViewTracker name="Hello Kitty dunyosiga xush kelibsiz" category="Hello Kitty">
           <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-16 md:grid-cols-2 md:py-24">
-            <div>
+            <div data-reveal>
               <p className="font-script text-3xl text-dusty">Hello Kitty</p>
               <h2 className="mt-1 font-serif text-3xl font-medium text-cocoa sm:text-4xl">
                 Hello Kitty dunyosiga xush kelibsiz
@@ -250,7 +256,7 @@ export default function Home() {
                 Buyurtma berish
               </a>
             </div>
-            <div className="relative mx-auto w-full max-w-md">
+            <div data-reveal style={{ transitionDelay: "150ms" }} className="relative mx-auto w-full max-w-md">
               <div className="absolute -bottom-6 -right-6 h-[85%] w-[75%] bg-dusty" aria-hidden />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={IMG + "hk-kosmetika.jpg"} alt="Hello Kitty kosmetika nabori" className="relative aspect-[4/5] w-[88%] object-cover" />
@@ -310,7 +316,7 @@ export default function Home() {
       <section id="ariza" className="relative scroll-mt-4 overflow-hidden bg-greige">
         <Sparkle className="absolute left-[18%] top-16 h-5 w-5 text-white" />
         <Sparkle className="absolute right-[20%] top-28 h-4 w-4 text-white" />
-        <div className="relative mx-auto max-w-xl px-6 py-20 text-center">
+        <div data-reveal className="relative mx-auto max-w-xl px-6 py-20 text-center">
           <p className="font-serif text-4xl font-semibold text-dusty sm:text-5xl">
             MARY KIDS <span className="font-script font-normal text-rust">bilan tanishing</span> ❤️
           </p>
@@ -328,8 +334,9 @@ export default function Home() {
       </section>
 
       <footer className="bg-dusty px-6 py-10 text-center text-cocoa">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={IMG + "logo.png"} alt="MARY KIDS" width="820" height="215" className="mx-auto h-10 w-auto" />
+        <div data-reveal className="mx-auto w-fit">
+          <Logo className="h-10" animated={false} />
+        </div>
         <p className="mt-2 text-xs uppercase tracking-[0.2em]">© {new Date().getFullYear()} · Barcha huquqlar himoyalangan</p>
       </footer>
     </main>
