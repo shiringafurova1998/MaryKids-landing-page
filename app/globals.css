@@ -29,3 +29,76 @@ body {
 .animate-spin-slow {
   animation: spin-slow 24s linear infinite;
 }
+
+/* ---------- Animatsiyalar ---------- */
+
+/* Logotip */
+@keyframes logo-in {
+  from { opacity: 0; transform: translateY(-12px) scale(0.96); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes dot-pop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+@keyframes dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-55%); }
+  35% { transform: translateY(0) scale(1.08, 0.92); }
+  45% { transform: translateY(-15%); }
+}
+.logo-in { animation: logo-in 0.9s cubic-bezier(.2,.7,.2,1) both; }
+.logo-dot { animation: dot-pop 0.5s cubic-bezier(.3,1.6,.5,1) both, dot-bounce 2.6s ease-in-out infinite; }
+.logo-wrap:hover .logo-dot { animation-duration: 0.5s, 1.1s; }
+
+/* Bosh qism */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes arch-in {
+  from { opacity: 0; transform: translateY(40px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+.anim-arch { animation: arch-in 1.1s cubic-bezier(.2,.7,.2,1) 0.2s both; }
+.anim-up { animation: fade-up 0.9s cubic-bezier(.2,.7,.2,1) both; }
+.delay-1 { animation-delay: 0.35s; }
+.delay-2 { animation-delay: 0.5s; }
+.delay-3 { animation-delay: 0.65s; }
+.delay-4 { animation-delay: 0.8s; }
+
+/* Yulduzchalar va fon shakllari */
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.35; transform: scale(0.6) rotate(45deg); }
+}
+.twinkle { animation: twinkle 3.2s ease-in-out infinite; }
+.twinkle:nth-of-type(2n) { animation-delay: 1.1s; animation-duration: 2.6s; }
+.twinkle:nth-of-type(3n) { animation-delay: 0.6s; animation-duration: 3.8s; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-8px, -14px); }
+}
+.float-slow { animation: float 9s ease-in-out infinite; }
+.float-slower { animation: float 13s ease-in-out infinite reverse; }
+
+/* Telegram tugmasi */
+@keyframes soft-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(141, 107, 96, 0.45); }
+  100% { box-shadow: 0 0 0 16px rgba(141, 107, 96, 0); }
+}
+.pulse-soft { animation: soft-pulse 2.2s ease-out infinite; }
+
+/* Pastga aylantirganda chiqish */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(.2,.7,.2,1), transform 0.8s cubic-bezier(.2,.7,.2,1);
+}
+.reveal-ready [data-reveal].is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
