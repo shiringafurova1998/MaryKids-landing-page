@@ -1,13 +1,27 @@
 import { NextResponse } from "next/server";
-import { sendCapiEvent } from "@/lib/meta-capi";
+import { buildFbc, getClientIp, normalizePhone, sendCapiEvent, sha256 } from "@/lib/meta-capi";
+import { sealLead } from "@/lib/lead-token";
 
 // Kerakli sozlamalar (Vercel → Settings → Environment Variables yoki .env.local):
 //   TELEGRAM_BOT_TOKEN — @BotFather bergan token
 //   TELEGRAM_CHAT_ID   — arizalar boradigan chat/guruh/kanal ID si (masalan -1001234567890)
+// Ixtiyoriy:
+//   LEAD_LINK_SECRET   — sotuv havolalarini shifrlash kaliti
+//   SITE_URL           — sotuv havolasi uchun sayt manzili (masalan https://marykids.uz)
 
 const PROMO_CODES = ["MARY02", "MARY26", "MARY98"];
 
 const ALLOWED = ["Barchasi", "Palto va kurtkalar", "Disney ryukzaklar", "Hello Kitty naborlar", "Bolalar organayzerlari"];
+
+// Havola qisqa bo'lishi uchun manzilning faqat domen va yo'li (fbclid allaqachon fbc ichida)
+function pageUrl(url) {
+  try {
+    const u = new URL(url);
+    return u.origin + u.pathname;
+  } catch {
+    return undefined;
+  }
+}
 
 function escapeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -51,31 +65,72 @@ export async function POST(request) {
   ].join("\n");
 
   const eventId = typeof data.eventId === "string" ? data.eventId.slice(0, 100) : undefined;
+  const eventSourceUrl = typeof data.eventSourceUrl === "string" ? data.eventSourceUrl.slice(0, 500) : undefined;
+  const firstName = name.split(/\s+/)[0];
+  const fbp = request.cookies.get("_fbp")?.value || (typeof data.fbp === "string" ? data.fbp : undefined);
+  const fbc = buildFbc(request, typeof data.fbc === "string" ? data.fbc : undefined, eventSourceUrl);
 
-  // Telegram va Meta CAPI parallel yuboriladi
-  const [tg, capi] = await Promise.all([
+  // Sotuvchi uchun shifrlangan havola: mijozning xeshlangan ma'lumotlari, cookie'lar,
+  // IP va brauzer — keyin Purchase hodisasini aynan shu odamga bog'lash uchun.
+  let saleUrl;
+  try {
+    const normalizedPhone = normalizePhone(phone);
+    const linkToken = sealLead({
+      v: 1,
+      id: eventId || crypto.randomUUID(),
+      t: Math.floor(Date.now() / 1000),
+      n: firstName.slice(0, 40),
+      p4: phone.slice(-4),
+      i: interests.join(", ").slice(0, 120),
+      ph: sha256(normalizedPhone),
+      fn: sha256(firstName),
+      fbp,
+      fbc,
+      ip: getClientIp(request),
+      ua: (request.headers.get("user-agent") || "").slice(0, 300) || undefined,
+      u: pageUrl(eventSourceUrl),
+    });
+    const origin = (process.env.SITE_URL || new URL(request.url).origin).replace(/\/$/, "");
+    saleUrl = `${origin}/sotuv?t=${linkToken}`;
+  } catch (e) {
+    console.error("Sotuv havolasini yaratib bo'lmadi:", String(e));
+  }
+
+  const sendTelegram = (withButton) =>
     fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" }),
-    }),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: "HTML",
+        ...(withButton && saleUrl
+          ? { reply_markup: { inline_keyboard: [[{ text: "💰 Sotuvni Meta'ga yuborish", url: saleUrl }]] } }
+          : {}),
+      }),
+    });
+
+  // Telegram va Meta CAPI parallel yuboriladi
+  const [tgFirst, capi] = await Promise.all([
+    sendTelegram(true),
     eventId
       ? sendCapiEvent({
           request,
           eventName: "Lead",
           eventId,
-          eventSourceUrl: typeof data.eventSourceUrl === "string" ? data.eventSourceUrl.slice(0, 500) : undefined,
-          user: {
-            phone,
-            firstName: name.split(/\s+/)[0],
-            externalId: phone,
-            fbp: typeof data.fbp === "string" ? data.fbp : undefined,
-            fbc: typeof data.fbc === "string" ? data.fbc : undefined,
-          },
+          eventSourceUrl,
+          user: { phone, firstName, externalId: phone, fbp, fbc },
           customData: { content_name: "MARY KIDS forma", content_category: interests.join(", ") },
         }).catch((e) => ({ ok: false, error: String(e) }))
       : Promise.resolve({ skipped: true }),
   ]);
+
+  // Tugma sabab rad etilsa ham lid yo'qolmasin — tugmasiz qayta yuboramiz
+  let tg = tgFirst;
+  if (!tg.ok && saleUrl) {
+    console.error("Telegram (tugma bilan) xatosi:", await tg.text());
+    tg = await sendTelegram(false);
+  }
   if (capi && capi.ok === false) console.error("CAPI Lead yuborilmadi");
 
   if (!tg.ok) {
