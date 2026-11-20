@@ -5,6 +5,8 @@ import { sendCapiEvent } from "@/lib/meta-capi";
 //   TELEGRAM_BOT_TOKEN — @BotFather bergan token
 //   TELEGRAM_CHAT_ID   — arizalar boradigan chat/guruh/kanal ID si (masalan -1001234567890)
 
+const PROMO_CODES = ["MARY02", "MARY26", "MARY98"];
+
 const ALLOWED = ["Barchasi", "Palto va kurtkalar", "Disney ryukzaklar", "Hello Kitty naborlar", "Bolalar organayzerlari"];
 
 function escapeHtml(s) {
@@ -36,12 +38,15 @@ export async function POST(request) {
     return NextResponse.json({ error: "Server sozlanmagan" }, { status: 500 });
   }
 
+  const promo = PROMO_CODES[Math.floor(Math.random() * PROMO_CODES.length)];
+
   const text = [
     "🆕 <b>Yangi mijoz — MARY KIDS</b>",
     "",
     `👤 <b>Ism:</b> ${escapeHtml(name)}`,
     `📞 <b>Telefon:</b> +${phone}`,
     `🛍 <b>Qiziqishi:</b> ${interests.map(escapeHtml).join(", ")}`,
+    `🎟 <b>Promokod:</b> ${promo}`,
     `🕒 ${new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" })}`,
   ].join("\n");
 
@@ -78,5 +83,5 @@ export async function POST(request) {
     return NextResponse.json({ error: "Yuborib bo'lmadi" }, { status: 502 });
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, promo });
 }
