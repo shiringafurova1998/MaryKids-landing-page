@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { getFbCookies, newEventId, pixelTrack } from "@/lib/meta-client";
+import { useEffect, useState } from "react";
+import { getFbCookies, newEventId, pixelTrack, trackEvent } from "@/lib/meta-client";
+
+const CHANNEL_URL = process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL || "https://t.me/marykids";
+const PROMO_DELAY = 15; // soniya
 
 const INTERESTS = [
   "Palto va kurtkalar",
@@ -18,10 +21,75 @@ function formatPhone(value) {
   return "+998 " + parts.filter(Boolean).join(" ");
 }
 
+function SuccessCard({ name, promo }) {
+  const [left, setLeft] = useState(PROMO_DELAY);
+
+  useEffect(() => {
+    if (left <= 0) return;
+    const t = setTimeout(() => setLeft((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [left]);
+
+  const progress = ((PROMO_DELAY - left) / PROMO_DELAY) * 100;
+
+  return (
+    <div className="mt-6 bg-blush p-6 text-center text-cocoa sm:p-8">
+      <p className="font-serif text-2xl">Rahmat{name ? `, ${name}` : ""}! ❤️</p>
+      <p className="mt-1 text-sm">Ma&apos;lumotingiz qabul qilindi.</p>
+
+      {left > 0 ? (
+        <div className="anim-up mt-6">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-taupe">Sizning promokodingiz</p>
+          <p className="mt-2 inline-block select-all border-2 border-dashed border-rust bg-white px-6 py-3 font-serif text-3xl tracking-[0.15em] text-rust">
+            {promo}
+          </p>
+          <p className="mt-4 font-semibold">
+            📸 Skrinshot qiling va 1-buyurtmangizdan 5% chegirma oling!
+          </p>
+          <p className="mt-2 text-sm">
+            ⚠️ Chegirma faqat Telegram kanalimizga a&apos;zo bo&apos;lganlarga beriladi — hoziroq qo&apos;shiling.
+          </p>
+          <p className="mt-5 text-sm">
+            Promokod <b className="text-lg text-rust">{left}</b> soniyadan keyin yopiladi
+          </p>
+          <div className="mx-auto mt-2 h-1.5 max-w-xs overflow-hidden bg-white/70">
+            <div
+              className="h-full bg-rust transition-[width] duration-1000 ease-linear"
+              style={{ width: `${100 - progress}%` }}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="anim-up mt-6">
+          <p className="font-semibold">⏰ Vaqt tugadi</p>
+          <p className="mt-2 text-sm">
+            Promokodni skrinshot qilgan bo&apos;lsangiz, Telegram kanalimizga qo&apos;shiling va buyurtma berishda
+            skrinshotni yuboring.
+          </p>
+        </div>
+      )}
+
+      <a
+        href={CHANNEL_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => trackEvent("Contact", { content_name: "Telegram kanal — promokod" })}
+        className="pulse-soft mt-6 inline-flex items-center gap-2 bg-taupe px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-cocoa"
+      >
+        <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
+          <path d="M9.04 15.5l-.37 5.2c.53 0 .76-.23 1.04-.5l2.5-2.4 5.18 3.8c.95.52 1.62.25 1.88-.88l3.4-15.96c.3-1.4-.5-1.95-1.43-1.6L1.3 9.9c-1.37.53-1.35 1.3-.23 1.65l5.1 1.6L18 5.7c.56-.37 1.07-.17.65.2" />
+        </svg>
+        Hoziroq kanalga qo&apos;shiling
+      </a>
+    </div>
+  );
+}
+
 export default function LeadForm() {
   const [form, setForm] = useState(initial);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const [result, setResult] = useState({ name: "", promo: "" });
 
   const allSelected = form.interests.length === INTERESTS.length;
 
@@ -68,8 +136,10 @@ export default function LeadForm() {
         }),
       });
       if (!res.ok) throw new Error("Request failed");
+      const json = await res.json().catch(() => ({}));
       // Brauzer Pixel'i — server CAPI bilan bir xil eventId (dublikat sanalmaydi)
       pixelTrack("Lead", { content_name: "MARY KIDS forma", content_category: interests.join(", ") }, eventId);
+      setResult({ name: form.name.trim().split(/\s+/)[0], promo: json.promo || "MARY26" });
       setStatus("success");
       setForm(initial);
     } catch {
@@ -78,15 +148,7 @@ export default function LeadForm() {
   }
 
   if (status === "success") {
-    return (
-      <div className="mt-6 bg-blush p-6 text-center text-cocoa">
-        <p className="text-lg font-semibold">Rahmat! Ma&apos;lumotingiz qabul qilindi ❤️</p>
-        <p className="mt-1">Tez orada siz bilan bog&apos;lanamiz.</p>
-        <button onClick={() => setStatus("idle")} className="mt-4 text-sm font-medium underline">
-          Yana yuborish
-        </button>
-      </div>
-    );
+    return <SuccessCard name={result.name} promo={result.promo} />;
   }
 
   const inputClass = (field) =>
