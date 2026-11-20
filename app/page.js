@@ -103,6 +103,19 @@ function CircleText() {
   );
 }
 
+function Polaroid({ image, label, className = "", delay = "0s" }) {
+  return (
+    <figure
+      className={`group absolute w-[47%] bg-white p-2.5 pb-10 shadow-[0_18px_40px_-16px_rgba(107,61,42,0.45)] transition-[rotate,scale] duration-500 hover:z-20 hover:rotate-0 hover:scale-105 ${className}`}
+      style={{ animationDelay: `${delay}, calc(${delay} + 1s)` }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={IMG + image} alt={label} className="aspect-[4/5] w-full object-cover" />
+      <figcaption className="absolute inset-x-0 bottom-1.5 text-center font-script text-2xl text-rust">{label}</figcaption>
+    </figure>
+  );
+}
+
 /* ---------- Mahsulot kartochkalari ---------- */
 
 function ProductCard({ item, index = 0 }) {
@@ -203,18 +216,8 @@ export default function Home() {
         <Sparkle className="absolute right-[22%] top-20 h-3 w-3 text-white" />
         <Sparkle className="absolute bottom-16 left-[46%] h-4 w-4 text-white" />
 
-        <div className="relative mx-auto grid max-w-6xl items-end gap-10 px-6 pt-12 md:grid-cols-2 md:pt-16">
-          <div className="anim-arch relative mx-auto w-full max-w-sm">
-            <div className="overflow-hidden rounded-t-full border-[12px] border-b-0 border-cream bg-cream">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={IMG + "ryukzak-belle.jpg"} alt="MARY KIDS ryukzaklari" className="aspect-[4/5] w-full object-cover" />
-            </div>
-            <div className="absolute -right-10 -top-6 hidden sm:block">
-              <CircleText />
-            </div>
-          </div>
-
-          <div className="relative z-10 pb-14 text-center md:pb-24 md:pr-16 md:text-left">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 py-14 md:grid-cols-2 md:py-20">
+          <div className="relative z-10 text-center md:text-left">
             <p className="anim-up delay-1 font-script text-5xl leading-none text-white drop-shadow-sm sm:text-6xl">bolajonlar uchun</p>
             <h1 className="anim-up delay-2 mt-2 font-serif text-4xl font-semibold leading-tight text-rust sm:text-5xl">
               eng yoqimli mahsulotlar
@@ -231,6 +234,15 @@ export default function Home() {
                 Maxsus taklif
               </a>
             </div>
+          </div>
+
+          <div className="relative mx-auto h-[430px] w-full max-w-[460px] sm:h-[520px]">
+            <div className="absolute -left-6 -top-8 z-30 hidden sm:block">
+              <CircleText />
+            </div>
+            <Polaroid image="hk-organayzer-kamalak.jpg" label="Hello Kitty" className="pol-in left-[2%] top-0 -rotate-6" delay="0.3s" />
+            <Polaroid image="shapka-pushti.jpg" label="shapka + sharf" className="pol-in right-0 top-[13%] rotate-6" delay="0.5s" />
+            <Polaroid image="ryukzak-mickey-oq.jpg" label="ryukzaklar" className="pol-in bottom-0 left-[20%] z-10 rotate-3" delay="0.7s" />
           </div>
         </div>
       </section>
