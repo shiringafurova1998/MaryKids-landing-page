@@ -24,7 +24,15 @@ export default async function SotuvPage({ searchParams }) {
         <p className="text-[11px] uppercase tracking-[0.25em] text-taupe">MARY KIDS · sotuvchi uchun</p>
         <h1 className="mt-2 font-serif text-3xl text-cocoa">Sotuvni Meta&apos;ga yuborish</h1>
 
-        {!lead ? (
+        {!token ? (
+          <div className="mt-6 bg-blush p-4 text-sm text-cocoa">
+            <p className="font-semibold">Bu sahifa Telegram bot orqali ochiladi.</p>
+            <p className="mt-2">
+              Botga kelgan lid xabari tagidagi <b>&laquo;💰 Sotuvni Meta&apos;ga yuborish&raquo;</b> tugmasini
+              bosing &mdash; shunda shu mijozning ma&apos;lumotlari bilan sahifa ochiladi.
+            </p>
+          </div>
+        ) : !lead ? (
           <p className="mt-6 bg-red-50 p-4 text-sm text-red-700">
             Havola yaroqsiz yoki buzilgan. Telegram&apos;dagi tugmani qaytadan bosing.
           </p>
