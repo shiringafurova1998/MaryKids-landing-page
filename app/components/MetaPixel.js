@@ -10,10 +10,12 @@ const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 export default function MetaPixel() {
   const pathname = usePathname();
   const lastPath = useRef(null);
+  // Sotuvchi sahifasida Pixel ishlamaydi — sotuvchi tashrifi mijozniki deb sanalmasin
+  const disabled = !PIXEL_ID || pathname?.startsWith("/sotuv");
 
   // Har bir sahifa ochilishida PageView (Pixel + CAPI, bitta event_id bilan)
   useEffect(() => {
-    if (!PIXEL_ID || lastPath.current === pathname) return;
+    if (disabled || lastPath.current === pathname) return;
     lastPath.current = pathname;
     const fire = () => trackEvent("PageView");
     if (typeof window.fbq === "function") fire();
@@ -26,9 +28,9 @@ export default function MetaPixel() {
       }, 100);
       setTimeout(() => clearInterval(t), 5000);
     }
-  }, [pathname]);
+  }, [pathname, disabled]);
 
-  if (!PIXEL_ID) return null;
+  if (disabled) return null;
 
   return (
     <>
