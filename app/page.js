@@ -4,7 +4,7 @@ import ViewTracker from "./components/ViewTracker";
 import Logo from "./components/Logo";
 import Reveal from "./components/Reveal";
 
-const CHANNEL_URL = process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL || "https://t.me/marykids";
+const CHANNEL_URL = "https://t.me/+fDIgqgEA8bljZTky";
 const IMG = "/images/";
 
 // Mahsulot qo'shish: rasmni public/images ga qo'ying va ro'yxatga { title, image } yozing.
@@ -226,23 +226,43 @@ export default function Home() {
               Hello Kitty naborlari, Disney ryukzaklar, mini sumkalar, issiq palto, kurtka va shapka-sharf
               naborlari — barchasi MARY KIDS&apos;da.
             </p>
-            <div className="anim-up delay-4 mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
-              <a href="#hello-kitty" className="bg-taupe px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-cocoa">
+            <div className="anim-up delay-4 mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:justify-start">
+              <TelegramButton
+                href={CHANNEL_URL}
+                label="Telegram kanalga qo'shilish"
+                className="mt-0 w-full sm:w-auto"
+                source="Telegram kanal — hero"
+              />
+              <a
+                href="#hello-kitty"
+                className="w-full border border-taupe px-8 py-3.5 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-cocoa transition hover:bg-taupe hover:text-white sm:w-auto"
+              >
                 Mahsulotlarni ko&apos;rish
               </a>
-              <a href="#ariza" className="border border-taupe px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-taupe transition hover:bg-white/50">
-                Maxsus taklif
-              </a>
             </div>
+            <p className="anim-up delay-4 mt-3 text-xs text-taupe">
+              Yangi mahsulotlar, narxlar va chegirmalar har kuni kanalimizda ✨
+            </p>
           </div>
 
-          <div className="relative mx-auto h-[430px] w-full max-w-[460px] sm:h-[520px]">
-            <div className="absolute -left-6 -top-8 z-30 hidden sm:block">
+          <div className="relative order-first mx-auto w-full max-w-[240px] sm:max-w-[280px] md:order-none">
+            <div className="absolute -left-14 -top-8 z-30 hidden sm:block">
               <CircleText />
             </div>
-            <Polaroid image="hk-organayzer-kamalak.jpg" label="Hello Kitty" className="pol-in left-[2%] top-0 -rotate-6" delay="0.3s" />
-            <Polaroid image="shapka-pushti.jpg" label="shapka + sharf" className="pol-in right-0 top-[13%] rotate-6" delay="0.5s" />
-            <Polaroid image="ryukzak-mickey-oq.jpg" label="ryukzaklar" className="pol-in bottom-0 left-[20%] z-10 rotate-3" delay="0.7s" />
+            <div className="relative overflow-hidden rounded-[2rem] border-[6px] border-white bg-white shadow-[0_24px_60px_-20px_rgba(107,61,42,0.55)]">
+              <video
+                src="/videos/kanal-obzor.mp4"
+                poster="/videos/kanal-obzor-poster.jpg"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label="MARY KIDS Telegram kanali obzori"
+                className="block aspect-[720/1564] w-full object-cover"
+              />
+            </div>
+            <p className="mt-3 text-center font-script text-2xl text-rust">Telegram kanalimiz obzori</p>
           </div>
         </div>
       </section>
