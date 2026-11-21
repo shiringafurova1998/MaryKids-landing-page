@@ -245,24 +245,65 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="relative order-first mx-auto w-full max-w-[240px] sm:max-w-[280px] md:order-none">
-            <div className="absolute -left-14 -top-8 z-30 hidden sm:block">
+          <div className="relative order-first mx-auto flex w-full max-w-[300px] justify-center py-6 sm:max-w-[340px] md:order-none">
+            {/* orqa fon nuri */}
+            <div className="phone-glow absolute inset-x-4 inset-y-10 rounded-full bg-gradient-to-br from-rust/40 via-dusty/50 to-white/0 blur-3xl" aria-hidden />
+            <div className="absolute -left-10 -top-2 z-30 hidden sm:block">
               <CircleText />
             </div>
-            <div className="relative overflow-hidden rounded-[2rem] border-[6px] border-white bg-white shadow-[0_24px_60px_-20px_rgba(107,61,42,0.55)]">
-              <video
-                src="/videos/kanal-obzor.mp4"
-                poster="/videos/kanal-obzor-poster.jpg"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                aria-label="MARY KIDS Telegram kanali obzori"
-                className="block aspect-[720/1564] w-full object-cover"
-              />
+
+            {/* aylanuvchi bezaklar */}
+            <div className="pointer-events-none absolute left-1/2 top-1/2 z-0" aria-hidden>
+              <span className="orbit absolute -ml-3 -mt-3 text-2xl" style={{ "--r": "170px" }}>💗</span>
+              <span className="orbit absolute -ml-3 -mt-3 text-2xl" style={{ "--r": "160px", animationDelay: "-6s" }}>🧸</span>
+              <span className="orbit absolute -ml-3 -mt-3 text-2xl" style={{ "--r": "175px", animationDelay: "-12s" }}>🎀</span>
             </div>
-            <p className="mt-3 text-center font-script text-2xl text-rust">Telegram kanalimiz obzori</p>
+
+            <div className="phone-wrap relative z-10">
+              <div className="phone-float relative w-[230px] sm:w-[260px]">
+                {/* yon tugmalar */}
+                <span className="absolute -left-[3px] top-24 h-10 w-[3px] rounded-l bg-[#2b1d18]" aria-hidden />
+                <span className="absolute -left-[3px] top-36 h-14 w-[3px] rounded-l bg-[#2b1d18]" aria-hidden />
+                <span className="absolute -right-[3px] top-32 h-20 w-[3px] rounded-r bg-[#2b1d18]" aria-hidden />
+                {/* korpus */}
+                <div className="rounded-[2.8rem] bg-gradient-to-b from-[#3a2a24] to-[#1d1411] p-[10px] shadow-[0_40px_80px_-25px_rgba(107,61,42,0.7),inset_0_0_0_2px_rgba(255,255,255,0.08)]">
+                  <div className="phone-shine relative overflow-hidden rounded-[2.2rem] bg-black">
+                    {/* Dynamic Island */}
+                    <div className="absolute left-1/2 top-2.5 z-20 h-[22px] w-[78px] -translate-x-1/2 rounded-full bg-black" aria-hidden />
+                    <video
+                      src="/videos/kanal-obzor.mp4"
+                      poster="/videos/kanal-obzor-poster.jpg"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      aria-label="MARY KIDS Telegram kanali obzori"
+                      className="block aspect-[720/1564] w-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                {/* suzuvchi xabar pufakchalari */}
+                <div className="bubble-pop absolute -left-16 top-16 z-20 flex items-center gap-2 rounded-2xl bg-white px-3 py-2 text-xs font-semibold text-cocoa shadow-lg sm:-left-24" aria-hidden>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#2AABEE] text-[11px] text-white">✈</span>
+                  +1 obunachi
+                </div>
+                <div className="bubble-pop absolute -right-14 top-1/2 z-20 rounded-2xl bg-white px-3 py-2 text-xs font-semibold text-cocoa shadow-lg sm:-right-20" style={{ animationDelay: "2s" }} aria-hidden>
+                  🆕 Yangi mahsulot!
+                </div>
+                <div className="bubble-pop absolute -left-12 bottom-20 z-20 rounded-2xl bg-white px-3 py-2 text-xs font-semibold text-rust shadow-lg sm:-left-20" style={{ animationDelay: "4s" }} aria-hidden>
+                  🔥 Chegirma
+                </div>
+
+                {/* ko'tariluvchi yuraklar */}
+                <span className="heart-rise absolute -right-3 bottom-10 z-20 text-xl" aria-hidden>❤️</span>
+                <span className="heart-rise absolute right-6 bottom-6 z-20 text-lg" style={{ animationDelay: "1.5s" }} aria-hidden>💕</span>
+                <span className="heart-rise absolute -right-6 bottom-16 z-20 text-base" style={{ animationDelay: "3s" }} aria-hidden>💗</span>
+              </div>
+            </div>
+
+            <p className="absolute -bottom-4 left-0 right-0 text-center font-script text-2xl text-rust">Telegram kanalimiz obzori</p>
           </div>
         </div>
       </section>
