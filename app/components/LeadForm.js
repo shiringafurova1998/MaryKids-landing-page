@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getFbCookies, newEventId, pixelTrack, trackEvent } from "@/lib/meta-client";
 
-const CHANNEL_URL = process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL || "https://t.me/marykids";
+const CHANNEL_URL = "https://t.me/+fDIgqgEA8bljZTky";
 const PROMO_DELAY = 15; // soniya
 
 const INTERESTS = [
