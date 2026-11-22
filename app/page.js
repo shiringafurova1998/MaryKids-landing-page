@@ -1,5 +1,6 @@
 import LeadForm from "./components/LeadForm";
 import TelegramButton from "./components/TelegramButton";
+import HeroVideo from "./components/HeroVideo";
 import ViewTracker from "./components/ViewTracker";
 import Logo from "./components/Logo";
 import Reveal from "./components/Reveal";
@@ -270,15 +271,9 @@ export default function Home() {
                   <div className="phone-shine relative overflow-hidden rounded-[2.2rem] bg-black">
                     {/* Dynamic Island */}
                     <div className="absolute left-1/2 top-2.5 z-20 h-[22px] w-[78px] -translate-x-1/2 rounded-full bg-black" aria-hidden />
-                    <video
+                    <HeroVideo
                       src="/videos/kanal-obzor.mp4"
-                      poster="/videos/kanal-obzor-poster.jpg"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                      aria-label="MARY KIDS Telegram kanali obzori"
+                      label="MARY KIDS Telegram kanali obzori"
                       className="block aspect-[720/1564] w-full object-cover"
                     />
                   </div>
